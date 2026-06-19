@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organigramma — IIS G. Mendel 2025/2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Merriweather:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-primary:#2e7d32;
+    --green-dark:#1b5e20;
+    --green-light:#4caf50;
+    --green-pale:#e8f3e9;
+    --white:#ffffff;
+    --bg:#f5f5f5;
+    --text:#1a1a1a;
+    --muted:#5a6b5c;
+    --border:#dfe6df;
+    --shadow:0 2px 10px rgba(27,94,32,0.08);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Source Sans 3', system-ui, sans-serif;
+    line-height:1.5;
+  }
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    background:linear-gradient(135deg, var(--green-dark), var(--green-primary) 60%, var(--green-light));
+    color:var(--white);
+    padding:60px 32px 50px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  header.hero::after{
+    content:"";
+    position:absolute;
+    bottom:0; left:0; right:0;
+    height:6px;
+    background:var(--green-light);
+  }
+  header.hero .school{
+    font-size:0.85rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    opacity:0.85;
+    margin-bottom:12px;
+  }
+  header.hero h1{
+    font-family:'Merriweather', serif;
+    font-weight:900;
+    font-size:2.2rem;
+    margin:0 0 10px;
+  }
+  header.hero p.subtitle{
+    margin:0 0 24px;
+    font-size:1.02rem;
+    opacity:0.92;
+  }
+  .stats-row{
+    display:flex;
+    justify-content:center;
+    gap:32px;
+    flex-wrap:wrap;
+  }
+  .stat{
+    background:rgba(255,255,255,0.12);
+    border:1px solid rgba(255,255,255,0.25);
+    border-radius:10px;
+    padding:9px 18px;
+    min-width:100px;
+  }
+  .stat .n{font-family:'Merriweather', serif; font-weight:900; font-size:1.4rem; display:block;}
+  .stat .l{font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; opacity:0.85;}
+
+  /* ---------- CONTROLS ---------- */
+  .controls{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:var(--white);
+    border-bottom:1px solid var(--border);
+    box-shadow:var(--shadow);
+  }
+  .controls-inner{
+    max-width:1100px;
+    margin:0 auto;
+    padding:14px 24px;
+    display:flex;
+    gap:14px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .search-box{flex:1; min-width:220px; position:relative;}
+  .search-box input{
+    width:100%;
+    padding:10px 16px 10px 38px;
+    border:1.5px solid var(--border);
+    border-radius:24px;
+    font-size:0.95rem;
+    font-family:inherit;
+    outline:none;
+    transition:border-color .15s, box-shadow .15s;
+    background:var(--bg);
+  }
+  .search-box input:focus{
+    border-color:var(--green-primary);
+    box-shadow:0 0 0 3px var(--green-pale);
+    background:var(--white);
+  }
+  .search-box svg{
+    position:absolute; left:13px; top:50%; transform:translateY(-50%);
+    width:16px; height:16px; color:var(--muted); pointer-events:none;
+  }
+  .ctrl-btn{
+    border:1.5px solid var(--border);
+    background:var(--white);
+    color:var(--green-dark);
+    font-family:inherit;
+    font-size:0.82rem;
+    font-weight:600;
+    padding:8px 14px;
+    border-radius:18px;
+    cursor:pointer;
+    transition:all .15s;
+    white-space:nowrap;
+  }
+  .ctrl-btn:hover{background:var(--green-pale); border-color:var(--green-light);}
+  .ctrl-link{
+    color:var(--green-dark);
+    font-size:0.82rem;
+    font-weight:700;
+    text-decoration:none;
+    white-space:nowrap;
+    padding:8px 4px;
+    border-bottom:1.5px solid transparent;
+    transition:border-color .15s;
+  }
+  .ctrl-link:hover{border-color:var(--green-primary);}
+  #noresults{
+    display:none;
+    text-align:center;
+    padding:60px 20px;
+    color:var(--muted);
+    font-size:1.05rem;
+  }
+
+  /* ---------- CHART ---------- */
+  .chart-section{
+    max-width:1180px;
+    margin:0 auto;
+    padding:50px 20px 80px;
+  }
+  .chart-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .apex-node{
+    background:var(--green-dark);
+    color:var(--white);
+    padding:16px 30px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:var(--shadow);
+    max-width:360px;
+  }
+  .apex-node .role{
+    font-weight:700;
+    font-size:0.78rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    opacity:0.85;
+    display:block;
+  }
+  .apex-node .person{
+    font-family:'Merriweather', serif;
+    font-weight:900;
+    font-size:1.2rem;
+    margin-top:4px;
+  }
+  .trunk{
+    width:2px;
+    height:34px;
+    background:var(--green-light);
+  }
+  .branch-row{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:flex-start;
+    gap:26px 20px;
+    border-top:2px solid var(--green-primary);
+    padding-top:32px;
+    max-width:1100px;
+    width:100%;
+  }
+  .branch{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .branch::before{
+    content:"";
+    position:absolute;
+    top:-32px; left:50%;
+    width:2px; height:32px;
+    background:var(--green-primary);
+    transform:translateX(-50%);
+  }
+  .branch-label{
+    cursor:pointer;
+    background:var(--white);
+    border:2px solid var(--green-primary);
+    border-radius:10px;
+    padding:13px 20px;
+    min-width:185px;
+    text-align:center;
+    transition:background .15s, color .15s;
+    user-select:none;
+  }
+  .branch-label:hover{background:var(--green-pale);}
+  .branch-label.open{background:var(--green-primary); color:var(--white);}
+  .branch-label .b-num{
+    font-family:'Merriweather', serif;
+    font-weight:900;
+    font-size:0.8rem;
+    opacity:0.65;
+    display:block;
+  }
+  .branch-label .b-title{
+    font-weight:700;
+    font-size:0.92rem;
+    margin-top:2px;
+    line-height:1.25;
+  }
+  .branch-label .b-count{
+    font-size:0.7rem;
+    opacity:0.75;
+    display:block;
+    margin-top:4px;
+  }
+  .branch-label .b-chev{
+    display:inline-block;
+    margin-left:4px;
+    transition:transform .25s;
+  }
+  .branch-label.open .b-chev{transform:rotate(180deg);}
+
+  .branch-children{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:14px;
+    max-width:920px;
+    overflow:hidden;
+    max-height:0;
+    opacity:0;
+    margin-top:0;
+    transition:max-height .35s ease, opacity .25s ease, margin-top .35s ease, padding-top .35s ease;
+  }
+  .branch-children.show{
+    max-height:3000px;
+    opacity:1;
+    margin-top:26px;
+    padding-top:22px;
+    border-top:2px dashed var(--border);
+  }
+
+  .node-card{
+    position:relative;
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:12px 16px;
+    min-width:175px;
+    max-width:230px;
+    transition:box-shadow .15s, border-color .15s;
+  }
+  .node-card::before{
+    content:"";
+    position:absolute;
+    top:-22px; left:50%;
+    width:2px; height:22px;
+    background:var(--border);
+    transform:translateX(-50%);
+  }
+  .node-card:hover{box-shadow:var(--shadow); border-color:var(--green-light);}
+  .node-card.has-func{cursor:pointer;}
+  .node-card .n-role{font-weight:700; color:var(--green-dark); font-size:0.86rem; line-height:1.3;}
+  .node-card .n-person{font-size:0.83rem; color:var(--text); margin-top:4px; line-height:1.35;}
+  .node-card .n-func{
+    font-size:0.78rem;
+    color:var(--muted);
+    overflow:hidden;
+    max-height:0;
+    transition:max-height .25s ease, margin-top .25s ease;
+  }
+  .node-card.open .n-func{max-height:220px; margin-top:8px;}
+  .node-card .n-toggle{
+    font-size:0.7rem;
+    color:var(--green-primary);
+    margin-top:6px;
+    font-weight:700;
+  }
+  .node-card.hide{display:none;}
+  .node-card mark{background:#ffe27a; border-radius:3px; padding:0 2px;}
+
+  #backtop{
+    position:fixed; bottom:24px; right:24px;
+    width:46px; height:46px; border-radius:50%;
+    background:var(--green-primary); color:var(--white);
+    border:none; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; box-shadow:0 3px 10px rgba(0,0,0,0.2);
+    opacity:0; pointer-events:none;
+    transition:opacity .2s, transform .2s;
+    z-index:60;
+  }
+  #backtop.show{opacity:1; pointer-events:auto;}
+  #backtop:hover{transform:translateY(-3px); background:var(--green-dark);}
+  #backtop svg{width:20px;height:20px;}
+
+  footer.page-footer{
+    text-align:center;
+    padding:28px 24px 40px;
+    color:var(--muted);
+    font-size:0.85rem;
+    border-top:1px solid var(--border);
+  }
+
+  @media (max-width:700px){
+    .branch-row{border-top:none; padding-top:10px; gap:34px;}
+    .branch::before{display:none;}
+    .branch-children.show{border-top:none;}
+    .node-card::before{display:none;}
+    .trunk{height:20px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="school">IIS G. Mendel — Villa Cortese (MI)</div>
+  <h1>Organigramma dell'Istituto</h1>
+  <p class="subtitle">Anno Scolastico 2025/2026</p>
+  <div class="stats-row">
+    <div class="stat"><span class="n">5</span><span class="l">Aree</span></div>
+    <div class="stat"><span class="n">33</span><span class="l">Incarichi</span></div>
+    <div class="stat"><span class="n">13</span><span class="l">Dipartimenti</span></div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="controls-inner">
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Cerca un nome, un ruolo o una funzione…" autocomplete="off">
+    </div>
+    <button class="ctrl-btn" id="expandAllBtn">Espandi tutto</button>
+    <button class="ctrl-btn" id="collapseAllBtn">Comprimi tutto</button>
+    <a href="funzionigramma_mendel_interattivo.html" class="ctrl-link">Vedi il funzionigramma descrittivo →</a>
+  </div>
+</div>
+
+<section class="chart-section">
+  <div id="noresults">Nessun risultato trovato. Provate con un altro termine di ricerca.</div>
+  <div class="chart-wrap" id="chartRoot"></div>
+</section>
+
+<button id="backtop" aria-label="Torna su">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<footer class="page-footer">
+  Pagina creata dal Team Digitale per l'IIS Mendel
+</footer>
+
+<script>
+  const data = {
+    apex: {
+      role: "Dirigente Scolastico",
+      person: "Dott.ssa Cristina Gualtieri"
+    },
+    branches: [
+      {
+        num: "01", title: "Direzione e Staff di Coordinamento",
+        children: [
+          { role:"Collaboratrice Vicaria", person:"Prof.ssa Giuliana Ronzello", func:"Sostituisce il Dirigente Scolastico in caso di assenza o impedimento; collabora alla gestione organizzativa quotidiana e al coordinamento dello Staff di Presidenza." },
+          { role:"Staff di Presidenza", person:"Prof.ssa Giuliana Ronzello, Prof. Salvatore Librizzi, Prof.ssa Emanuela Rancilio", func:"Supporta la Dirigenza nella pianificazione strategica, nel monitoraggio delle attività scolastiche, nell'organizzazione e nella gestione interna." },
+          { role:"DSGA", person:"Personale ATA di ruolo/incaricato", func:"Sovraintende ai servizi amministrativi, contabili e generali della scuola; coordina e organizza il lavoro di tutto il personale ATA." }
+        ]
+      },
+      {
+        num: "02", title: "Responsabili di Indirizzo e Progetti Chiave",
+        children: [
+          { role:"Istituto Tecnico Agrario", person:"Prof.ssa Giuliana Ronzello", func:"Coordina le attività didattiche del settore tecnologico (articolazioni GAT e PT) e il monitoraggio dei percorsi quinquennali." },
+          { role:"Professionale e IeFP", person:"Prof. Pasquale Donnarumma", func:"Coordina l'indirizzo professionale regionale e statale (Qualifica di Operatore, Tecnico e V anno); gestisce gli esami di qualifica e diploma e la commissione crediti." },
+          { role:"Istruzione degli Adulti (IDA - Serale)", person:"Prof. Franco Albè", func:"Gestisce l'organizzazione didattica dei percorsi serali tecnico e professionale; coordina l'accoglienza degli studenti adulti e la stesura del Patto Formativo Individuale (PFI)." },
+          { role:"Attività e Progetti Extracurriculari", person:"Prof. Salvatore Librizzi", func:"Supervisiona la progettualità inserita nel PTOF al di fuori dell'orario delle lezioni e coordina l'allocazione e la gestione dei progetti speciali." },
+          { role:"Educazione Civica", person:"Prof.ssa Annalisa D'Angelo", func:"Supervisiona l'attuazione del curricolo trasversale di 33 ore annuali secondo le Linee Guida d'Istituto; armonizza le attività e i nuclei tematici tra i vari indirizzi." },
+          { role:"Riorientamento e Passaggi", person:"Prof.ssa Giuliana Ronzello", func:"Gestisce i percorsi di accoglienza, orientamento e le procedure di passaggio tra indirizzi interni o da altri istituti scolastici." }
+        ]
+      },
+      {
+        num: "03", title: "Funzioni Strumentali (FF.SS.)",
+        children: [
+          { role:"Inclusione Alunni con Disabilità", person:"Prof.ssa Francesca Sala, Prof.ssa Gianna L'Episcopo", func:"Coordinano la stesura e l'attuazione dei Piani Educativi Individualizzati (PEI) tramite la piattaforma Cosmi ICF; gestiscono l'organico di sostegno e i rapporti con l'ambito territoriale." },
+          { role:"Inclusione Alunni con D.S.A. e B.E.S.", person:"Prof.ssa Iole Pagliuca", func:"Organizza e analizza le certificazioni in ingresso; supporta i Consigli di Classe nella stesura e nel monitoraggio dei Piani Didattici Personalizzati (PDP); cura la comunicazione con le famiglie." },
+          { role:"Orientamento (IeFP, Professionale e IDA)", person:"Prof. Franco Albè", func:"Progetta e realizza le attività di orientamento e transizione in uscita specifiche per i corsi professionali e l'istruzione degli adulti." },
+          { role:"Orientamento (Istituto Tecnico)", person:"Prof.ssa Luisa Zanzottera, Prof. Massimo De Cecco", func:"Curano le attività di orientamento in entrata (Open Day, Campus) e in uscita verso i percorsi universitari, gli ITS e il mondo del lavoro per il settore tecnologico." }
+        ]
+      },
+      {
+        num: "04", title: "Coordinatori di Dipartimento",
+        children: [
+          { role:"Agronomia", person:"Prof.ssa Renata Minnaja" },
+          { role:"Chimica", person:"Prof. Alberto Venegoni" },
+          { role:"Diritto", person:"Prof.ssa Annalisa D'Angelo" },
+          { role:"Economia, Estimo, Marketing e Legislazione (E.E.L.M.)", person:"Prof. Massimo De Cecco" },
+          { role:"Inglese", person:"Prof.ssa Anna Lisa Musazzi" },
+          { role:"Lettere e Storia", person:"Prof. Riccardo Pozzi" },
+          { role:"Matematica e Fisica", person:"Prof.ssa Emanuela Rancilio" },
+          { role:"Produzioni Animali", person:"Prof.ssa Maria D'Abramo" },
+          { role:"Religione", person:"Prof. Paolo Natoli" },
+          { role:"Scienze motorie", person:"Prof.ssa Silvia Di Meco" },
+          { role:"Scienze, Geografia, Biologia, Biotecnologie applicate", person:"Prof.ssa Vincenza Romanini" },
+          { role:"Sostegno", person:"Prof.ssa Francesca Sala / Prof.ssa Gianna L'Episcopo" },
+          { role:"T.T.R.G. e Genio Rurale", person:"Prof. Michele Trieste" }
+        ]
+      },
+      {
+        num: "05", title: "Infrastrutture, Sito e Laboratori",
+        children: [
+          { role:"Ufficio Tecnico", person:"Prof. Samuele Petruzzi", func:"Gestisce la manutenzione dei laboratori, l'approvvigionamento dei materiali didattici e sovrintende ai reparti di lavorazione tecnica." },
+          { role:"Azienda Agraria S. Grato", person:"Prof. Valerio Sanfilippo", func:"Coordina le attività e gli indirizzi produttivi dell'azienda agro-frutticola e vitivinicola collegata (250 ha) per le esercitazioni pratiche." },
+          { role:"Animatore Digitale", person:"Prof. Giorgio Dino", func:"Cura l'attuazione del PNSD, lo sviluppo di aule immersive/TEAL e la formazione dei colleghi sulle metodologie digitali." },
+          { role:"Gestione Sito Web & PNRR M1C1", person:"Prof. Massimiliano Crespi", func:"Presidia l'aggiornamento, la manutenzione e l'adeguamento normativo europeo dei contenuti del portale d'istituto secondo i nuovi modelli per le scuole." },
+          { role:"Team Digitale", person:"Prof. G. Dino, Prof. M. Crespi, Prof. M. Pozzi", func:"Supporta l'Animatore Digitale nell'assistenza e nella transizione tecnologica delle aule e dei sistemi di condivisione Workspace." },
+          { role:"Laboratorio di Biologia", person:"Prof. Marco Nigro", func:"Presidia il laboratorio e le nuove strumentazioni di microscopia digitale legate ai fondi PNRR Next Generation Lab." },
+          { role:"Laboratorio di Chimica", person:"Prof. Aldo Nieli", func:"Gestisce la sicurezza, le attrezzature e i reagenti delle postazioni chimiche fruibili anche dal corso serale." },
+          { role:"Laboratorio di Informatica", person:"Prof. Mattia Pozzi", func:"Gestisce le reti informatiche d'istituto, Info 2 e le postazioni pc e Chromebook dedicate alla didattica." },
+          { role:"Laboratorio di Meristematica", person:"Prof.ssa Renata Minnaja", func:"Responsabile della struttura e dei protocolli del laboratorio speciale per la micropropagazione e meristematica." },
+          { role:"Laboratorio Trasformazione Prodotti", person:"Prof. Alberto Venegoni", func:"Coordina il mini-caseificio didattico, l'impianto di compostaggio e la sensoristica digitalizzata per il packaging 4.0." },
+          { role:"Palestre e Impianti Sportivi", person:"Prof. Antonello Vernucci", func:"Presidia le dotazioni sportive e la pianificazione d'uso della palestra interna e di quelle in convenzione." }
+        ]
+      }
+    ]
+  };
+
+  function el(tag, cls){ const e = document.createElement(tag); if(cls) e.className = cls; return e; }
+
+  function buildChart(){
+    const root = document.getElementById('chartRoot');
+
+    const apex = el('div','apex-node');
+    apex.innerHTML = `<span class="role">${data.apex.role}</span><div class="person">${data.apex.person}</div>`;
+    root.appendChild(apex);
+    root.appendChild(el('div','trunk'));
+
+    const row = el('div','branch-row');
+
+    data.branches.forEach(b => {
+      const branch = el('div','branch');
+
+      const label = el('div','branch-label');
+      label.innerHTML = `<span class="b-num">${b.num}</span><span class="b-title">${b.title}<span class="b-chev">▾</span></span><span class="b-count">${b.children.length} ${b.children.length===1?'incarico':'incarichi'}</span>`;
+
+      const childrenWrap = el('div','branch-children');
+      b.children.forEach(c => {
+        const card = el('div','node-card');
+        if(c.func) card.classList.add('has-func');
+        card.dataset.search = (c.role + ' ' + c.person + ' ' + (c.func||'')).toLowerCase();
+
+        let inner = `<div class="n-role">${c.role}</div><div class="n-person">${c.person}</div>`;
+        if(c.func){
+          inner += `<div class="n-func">${c.func}</div><div class="n-toggle">Mostra funzioni ▾</div>`;
+        }
+        card.innerHTML = inner;
+
+        if(c.func){
+          card.addEventListener('click', () => {
+            card.classList.toggle('open');
+            const t = card.querySelector('.n-toggle');
+            t.textContent = card.classList.contains('open') ? 'Nascondi funzioni ▴' : 'Mostra funzioni ▾';
+          });
+        }
+        childrenWrap.appendChild(card);
+      });
+
+      label.addEventListener('click', () => {
+        label.classList.toggle('open');
+        childrenWrap.classList.toggle('show');
+      });
+
+      branch.appendChild(label);
+      branch.appendChild(childrenWrap);
+      row.appendChild(branch);
+    });
+
+    root.appendChild(row);
+  }
+
+  buildChart();
+
+  // expand / collapse all
+  document.getElementById('expandAllBtn').addEventListener('click', () => {
+    document.querySelectorAll('.branch-label').forEach(l => l.classList.add('open'));
+    document.querySelectorAll('.branch-children').forEach(c => c.classList.add('show'));
+  });
+  document.getElementById('collapseAllBtn').addEventListener('click', () => {
+    document.querySelectorAll('.branch-label').forEach(l => l.classList.remove('open'));
+    document.querySelectorAll('.branch-children').forEach(c => c.classList.remove('show'));
+  });
+
+  // search / filter
+  const searchInput = document.getElementById('searchInput');
+  const noResults = document.getElementById('noresults');
+
+  function clearHighlights(){
+    document.querySelectorAll('.node-card mark').forEach(m => {
+      const parent = m.parentNode;
+      parent.replaceChild(document.createTextNode(m.textContent), m);
+      parent.normalize();
+    });
+  }
+
+  searchInput.addEventListener('input', () => {
+    const term = searchInput.value.trim().toLowerCase();
+    clearHighlights();
+    let anyVisibleTotal = false;
+
+    document.querySelectorAll('.branch').forEach(branch => {
+      const cards = branch.querySelectorAll('.node-card');
+      let branchHasMatch = false;
+      cards.forEach(card => {
+        const match = term === '' || card.dataset.search.includes(term);
+        card.classList.toggle('hide', !match);
+        if(match){
+          branchHasMatch = true;
+          anyVisibleTotal = true;
+          if(term){
+            const roleEl = card.querySelector('.n-role');
+            const personEl = card.querySelector('.n-person');
+            const regex = new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')','ig');
+            [roleEl, personEl].forEach(node => {
+              if(node && regex.test(node.textContent)){
+                node.innerHTML = node.textContent.replace(regex, '<mark>$1</mark>');
+              }
+            });
+          }
+        }
+      });
+      branch.style.display = (term === '' || branchHasMatch) ? '' : 'none';
+      const label = branch.querySelector('.branch-label');
+      const childrenWrap = branch.querySelector('.branch-children');
+      if(term !== '' && branchHasMatch){
+        label.classList.add('open');
+        childrenWrap.classList.add('show');
+      } else if(term === ''){
+        label.classList.remove('open');
+        childrenWrap.classList.remove('show');
+      }
+    });
+
+    noResults.style.display = (term !== '' && !anyVisibleTotal) ? 'block' : 'none';
+  });
+
+  // back to top
+  const backtop = document.getElementById('backtop');
+  window.addEventListener('scroll', () => {
+    backtop.classList.toggle('show', window.scrollY > 400);
+  });
+  backtop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+</script>
+
+</body>
+</html>
